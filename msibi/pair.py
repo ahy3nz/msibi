@@ -194,6 +194,11 @@ class Pair(object):
         self.potential = head_correction(pot_r, self.potential,
                 self.previous_potential, self.head_correction_form)
 
+        # Use Savitzky-Golay to smooth potential
+        self.potential = savitzky_golay(self.potential,9,2,deriv=0,rate=1)
+
+        
+
     def save_table_potential(self, r, dr, iteration=0, engine='hoomd'):
         """Save the table potential to a file usable by the MD engine. """
         V = self.potential

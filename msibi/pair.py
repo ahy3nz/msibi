@@ -190,8 +190,8 @@ class Pair(object):
                                len(self.states))
 
         # Apply corrections to ensure continuous, well-behaved potentials.
-        self.potential,last_real = tail_correction(pot_r, self.potential, r_switch)
-        self.potential = head_correction(pot_r, self.potential,
+        self.potential = tail_correction(pot_r, self.potential, r_switch)
+        self.potential,last_real = head_correction(pot_r, self.potential,
                 self.previous_potential, self.head_correction_form)
 
         # Use Savitzky-Golay to smooth potential beyond the head correction region

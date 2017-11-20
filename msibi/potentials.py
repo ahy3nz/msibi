@@ -31,6 +31,8 @@ from __future__ import division
 
 import numpy as np
 
+import msibi.utils
+import msibi.utils.general
 from msibi.utils.general import find_nearest
 
 __all__ = ['mie', 'morse']
@@ -107,14 +109,14 @@ def head_correction(r, V, previous_V, form='linear'):
                 raise RuntimeError('Undefined values in tail of potential.'
                                    'This probably means you need better '
                                    'sampling at this state point.')
-            return correction_function(r, V, last_real)
+            return correction_function(r, V, last_real), last_real
         # Retain old potential at small r because:
         #   * current rdf = 0, target rdf > 0 --> -inf values in potential.
         elif np.isneginf(pot_value):
             last_neginf = V.shape[0] - i - 1
             for i, pot_value in enumerate(V[:last_neginf+1]):
                 V[i] = previous_V[i]
-            return V
+            return V, last_real
     else:
         # TODO: Raise error?
         #       This means that all potential values are well behaved.

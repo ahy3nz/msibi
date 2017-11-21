@@ -191,11 +191,11 @@ class Pair(object):
 
         # Apply corrections to ensure continuous, well-behaved potentials.
         self.potential = tail_correction(pot_r, self.potential, r_switch)
-        self.potential,last_real = head_correction(pot_r, self.potential,
+        self.potential,last_bad_value = head_correction(pot_r, self.potential,
                 self.previous_potential, self.head_correction_form)
 
         # Use Savitzky-Golay to smooth potential beyond the head correction region
-        self.potential[last_real:] = savitzky_golay(self.potential[last_real:],9,2,deriv=0,rate=1)
+        self.potential[last_bad_value:] = savitzky_golay(self.potential[last_bad_value:],9,2,deriv=0,rate=1)
 
         
 

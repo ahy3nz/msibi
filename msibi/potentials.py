@@ -116,7 +116,7 @@ def head_correction(r, V, previous_V, form='linear'):
             last_neginf = V.shape[0] - i - 1
             for i, pot_value in enumerate(V[:last_neginf+1]):
                 V[i] = previous_V[i]
-            return V, last_real
+            return V, last_neginf
     else:
         # TODO: Raise error?
         #       This means that all potential values are well behaved.

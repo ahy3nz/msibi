@@ -195,7 +195,7 @@ class Pair(object):
                 self.previous_potential, self.head_correction_form)
 
         # Use Savitzky-Golay to smooth potential beyond the head correction region
-        self.potential[last_bad_value-2:] = savitzky_golay(self.potential[last_bad_value-2:],9,2,deriv=0,rate=1)
+        self.potential[2:] = savitzky_golay(self.potential[2:],9,2,deriv=0,rate=1)
 
         
 

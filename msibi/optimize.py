@@ -109,7 +109,7 @@ class MSIBI(object):
         self.r_switch = r_switch
 
     def optimize(self, states, pairs, n_iterations=10, engine='hoomd',
-                 start_iteration=0):
+                 start_iteration=0, **kwargs):
         """Optimize the pair potentials
 
         Parameters
@@ -166,13 +166,13 @@ class MSIBI(object):
         for n in range(start_iteration + self.n_iterations):
             logging.info("-------- Iteration {n} --------".format(**locals()))
             run_query_simulations(self.states, engine=engine)
-            self._update_potentials(n, engine)
+            self._update_potentials(n, engine, **kwargs)
 
     def _update_potentials(self, iteration, engine):
         """Update the potentials for each pair. """
         for pair in self.pairs:
             self._recompute_rdfs(pair, iteration)
-            pair.update_potential(self.pot_r, self.r_switch)
+            pair.update_potential(self.pot_r, self.r_switch, **kwargs)
             pair.save_table_potential(self.pot_r, self.dr, iteration=iteration,
                                       engine=engine)
 

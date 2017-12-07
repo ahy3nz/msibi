@@ -166,7 +166,7 @@ class Pair(object):
         rdf[:, 0] -= dr / 2
         np.savetxt(filename, rdf)
 
-    def update_potential(self, pot_r, r_switch=None):
+    def update_potential(self, pot_r, r_switch=None, smooth_potential=True):
         """Update the potential using all states. """
         self.previous_potential = np.copy(self.potential)
         for state in self.states:
@@ -195,7 +195,8 @@ class Pair(object):
                 self.previous_potential, self.head_correction_form)
 
         # Use Savitzky-Golay to smooth potential beyond the head correction region
-        self.potential = savitzky_golay(self.potential,9,2,deriv=0,rate=1)
+        if smooth_potential:
+            self.potential = savitzky_golay(self.potential,9,2,deriv=0,rate=1)
 
         
 

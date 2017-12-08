@@ -168,7 +168,7 @@ class MSIBI(object):
             run_query_simulations(self.states, engine=engine)
             self._update_potentials(n, engine, **kwargs)
 
-    def _update_potentials(self, iteration, engine):
+    def _update_potentials(self, iteration, engine, **kwargs):
         """Update the potentials for each pair. """
         for pair in self.pairs:
             self._recompute_rdfs(pair, iteration)

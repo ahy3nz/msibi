@@ -196,6 +196,7 @@ class Pair(object):
 
         # Use Savitzky-Golay to smooth potential beyond the head correction region
         if smooth_potential:
+            print("Smoothing potential")
             self.potential = savitzky_golay(self.potential,9,2,deriv=0,rate=1)
 
         

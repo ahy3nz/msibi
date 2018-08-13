@@ -163,7 +163,7 @@ class MSIBI(object):
         self.n_iterations = n_iterations
         self.initialize(engine=engine)
 
-        for n in range(start_iteration + self.n_iterations):
+        for n in range(start_iteration, start_iteration + self.n_iterations):
             logging.info("-------- Iteration {n} --------".format(**locals()))
             run_query_simulations(self.states, engine=engine)
             self._update_potentials(n, engine, **kwargs)

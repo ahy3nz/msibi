@@ -186,7 +186,7 @@ class MSIBI(object):
             pair.save_current_rdf(state, iteration=iteration, dr=self.dr)
             logging.info('pair {0}, state {1}, iteration {2}: {3:f}'.format(
                          pair.name, state.name, iteration,
-                         pair.states[state]['f_fit'][iteration]))
+                         pair.states[state]['f_fit'][-1]))
 
     def initialize(self, engine='hoomd', potentials_dir=None):
         """

@@ -189,7 +189,7 @@ class MSIBI(object):
                          pair.name, state.name, iteration,
                          pair.states[state]['f_fit'][-1]))
     def _perform_backups(n):
-        """ Backup trajectories"""
+        """Backup trajectories. """
         for state in self.states:
             if state.backup_trajectory:
                 state.traj[-1].save('{0}/_.{1}.frame.dcd'.format(state.state_dir,n))

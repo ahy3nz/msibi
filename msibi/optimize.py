@@ -167,6 +167,7 @@ class MSIBI(object):
             logging.info("-------- Iteration {n} --------".format(**locals()))
             run_query_simulations(self.states, engine=engine)
             self._update_potentials(n, engine, **kwargs)
+            self._perform_backups(n)
 
     def _update_potentials(self, iteration, engine, **kwargs):
         """Update the potentials for each pair. """
@@ -187,6 +188,12 @@ class MSIBI(object):
             logging.info('pair {0}, state {1}, iteration {2}: {3:f}'.format(
                          pair.name, state.name, iteration,
                          pair.states[state]['f_fit'][-1]))
+    def _perform_backups(n):
+        """ Backup trajectories"""
+        for state in self.states:
+            if state.backup_trajectory:
+                state.traj[-1].save('{0}/_.{1}.frame.dcd'.format(state.state_dir,n))
+                state.traj.save('{0}/_.{1}.query.dcd'.format(state.state_dir, n))
 
     def initialize(self, engine='hoomd', potentials_dir=None):
         """

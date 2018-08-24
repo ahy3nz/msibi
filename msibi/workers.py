@@ -105,8 +105,8 @@ def _post_query(state):
     state.reload_query_trajectory()
     backup_file(os.path.join(state.state_dir, 'log.txt'))
     backup_file(os.path.join(state.state_dir, 'err.txt'))
-    if state.backup_trajectory:
-        backup_file(state.traj_path)
+    #if state.backup_trajectory:
+    #    backup_file(state.traj_path)
 
 def _get_gpu_info():
     """ """

@@ -109,7 +109,7 @@ class MSIBI(object):
         self.r_switch = r_switch
 
     def optimize(self, states, pairs, n_iterations=10, engine='hoomd',
-                 start_iteration=0, backup_initial=True, **kwargs):
+                 start_iteration=0, **kwargs):
         """Optimize the pair potentials
 
         Parameters
@@ -124,11 +124,6 @@ class MSIBI(object):
             Engine that runs the simulations.
         start_iteration : int, optional
             Start optimization at start_iteration, useful for restarting.
-        backup_intial : bool, default True
-            Flag to backup the initial potential to step0
-            Turn this to False if you don't want to save your initial
-            potential as step0 (like if you were continuing/extending
-            an MSIBI optimization)
 
         References
         ----------
@@ -166,7 +161,7 @@ class MSIBI(object):
         self.states = states
         self.pairs = pairs
         self.n_iterations = n_iterations
-        self.initialize(engine=engine, backup_initial=backup_initial)
+        self.initialize(engine=engine, start_iteration=start_iteration)
 
         for n in range(start_iteration, start_iteration + self.n_iterations):
             logging.info("-------- Iteration {n} --------".format(**locals()))
@@ -201,7 +196,7 @@ class MSIBI(object):
                 state.traj.save('{0}/_.{1}.query.dcd'.format(state.state_dir, n))
 
     def initialize(self, engine='hoomd', potentials_dir=None, 
-            backup_intial=True):
+            start_iteration=0):
         """
         Create initial table potentials and the simulation input scripts.
 
@@ -211,12 +206,8 @@ class MSIBI(object):
             Engine used to run simulations
         potentials_dir : path, optional, default="'working_dir'/potentials"
             Directory to store potential files
-        backup_intial : bool, default True
-            Flag to backup the initial potential to step0
-            Turn this to False if you don't want to save your initial
-            potential as step0 (like if you were continuing/extending
-            an MSIBI optimization)
-
+        start_iteration : int, default 0
+            starting iteration, useful for continuing MSIBI optimizations 
 
         """
 
@@ -241,14 +232,14 @@ class MSIBI(object):
             V = tail_correction(self.pot_r, pair.potential, self.r_switch)
             pair.potential = V
 
-            if backup_initial:
-                # This file is written for viewing of how the potential evolves.
-                pair.save_table_potential(self.pot_r, self.dr, iteration=0,
-                                          engine=engine)
+            # This file is written for viewing of how the potential evolves.
+            pair.save_table_potential(self.pot_r, self.dr, 
+                                        iteration=start_iteration,
+                                      engine=engine)
 
-                # This file is overwritten at each iteration and actually used for
-                # performing the query simulations.
-                pair.save_table_potential(self.pot_r, self.dr, engine=engine)
+            # This file is overwritten at each iteration and actually used for
+            # performing the query simulations.
+            #pair.save_table_potential(self.pot_r, self.dr, engine=engine)
 
         for state in self.states:
             state.save_runscript(table_potentials, table_width=len(self.pot_r),

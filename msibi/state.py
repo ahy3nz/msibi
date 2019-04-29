@@ -57,6 +57,13 @@ pot_width = {2:d}
 nl = hoomd.md.nlist.cell()
 table = hoomd.md.pair.table(width=pot_width, nlist=nl)
 
+hoomd.analyze.log('thermo.log',
+        ['lx', 'ly', 'lz', 'temperature', 'pressure',
+        'potential_energy',
+        'pressure_xx', 'pressure_xy', 'pressure_xz',
+        'pressure_yy', 'pressure_yz', 'pressure_zz'],
+        overwrite=True, period=1000)
+
 """
 
 HOOMD_TABLE_ENTRY = """

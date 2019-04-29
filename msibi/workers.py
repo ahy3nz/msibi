@@ -105,6 +105,7 @@ def _post_query(state):
     state.reload_query_trajectory()
     backup_file(os.path.join(state.state_dir, 'log.txt'))
     backup_file(os.path.join(state.state_dir, 'err.txt'))
+    backup_file(os.path.join(state.state_dir, 'thermo.log'))
     #if state.backup_trajectory:
     #    backup_file(state.traj_path)
 
